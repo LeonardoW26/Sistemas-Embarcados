@@ -1,38 +1,57 @@
 #include <Arduino.h>
+#include <Arduino_FreeRTOS.h>
 
+#define LED_PIN_1 11
+#define LED_PIN_2 12
 
-#define BUTTON_PIN 2
-#define PWM 9
+//Prototipos de tarefas
+void TaskBlink1(void *pvParameters);
+void TaskBlink2(void *pvParameters);
 
+void setup (){
 
-int estado_botao = 0;
-int pwm = 0;
-int ultimo_estado_botao = 0;
-unsigned long tempo_acionado = 0;
-unsigned long tempo_delay = 50;
+//inicializar os pinos dos LES como saidas
+pinMode(LED_PIN_1, OUTPUT);
+pinMode(LED_PIN_2, OUTPUT);
 
-void setup() {
-  pinMode(PWM, OUTPUT);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
+//cria as tarefas
+xTaskCreate(
+    TaskBlink1, //função da tarefas - Ponteiro
+    "Blink1",
+    128, //tamanho da pilha
+    NULL, //Parametro da Tarefa
+    2, //prioridade - numeros mais altos - proporcional ao numero
+    NULL ); //agendar tarefa
+
+    xTaskCreate(
+    TaskBlink2, //função da tarefas - Ponteiro
+    "Blink2",
+    128, //tamanho da pilha
+    NULL, //Parametro da Tarefa
+    1, //prioridade - numeros mais altos - proporcional ao numero
+    NULL ); //agendar tarefa
 }
 
-void loop() {
+void loop (){
+//nada aqui
+}
 
-  int leitura = digitalRead(BUTTON_PIN);
-
-  if (leitura != ultimo_estado_botao) {
-    ultimo_estado_botao = leitura;
-    if (leitura == HIGH) {  
-      tempo_acionado = millis();
+void TaskBlink1(void *pvParameters){
+    (void) pvParameters;
+    for (;;){//loop infinito
+        digitalWrite(LED_PIN_1, HIGH);
+        vTaskDelay(1000 / portTICK_PERIOD_MS); //
+        digitalWrite(LED_PIN_1, LOW);
+        vTaskDelay(1000 / portTICK_PERIOD_MS); //
     }
-  }
+}
 
-  if (leitura == HIGH && ((millis() - tempo_acionado) > tempo_delay) && pwm < 255) {
-    pwm += 64;
-  } else if (leitura == HIGH && ((millis() - tempo_acionado) > tempo_delay)) {
-    pwm = 0;
-  }
-
-  analogWrite(PWM, pwm);
-  delay(50);
+void TaskBlink2(void *pvParameters){
+    (void) pvParameters;
+    for (;;){//loop infinito
+        digitalWrite(LED_PIN_2, HIGH);
+        vTaskDelay(500 / portTICK_PERIOD_MS); //
+        digitalWrite(LED_PIN_2, LOW);
+        vTaskDelay(500 / portTICK_PERIOD_MS); //
+    }
 }
