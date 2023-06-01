@@ -112,18 +112,54 @@ aplicações que exigem prazos determinísticos para suas operações. Ao contr�
 a justiça na execução de tarefas, um RTOS é otimizado para fornecer respostas rápidas e previsíveis a eventos em tempo real.
 
 2. Multitarefa com FreeRTOS
+Configuração inicial: Inclua os arquivos de cabeçalho necessários e configure as opções do FreeRTOS, como o número máximo de tarefas
+e a quantidade de memória alocada para o kernel.
+Criação de tarefas: Use a função xTaskCreate() para criar as tarefas desejadas. Cada tarefa é definida como uma função, que será executada
+quando a tarefa for ativada.
+Inicialização do kernel: Chame a função vTaskStartScheduler() para iniciar o kernel do FreeRTOS. Essa função iniciará as tarefas 
+criadas e começará a executar o escalonador.
 
 3. Sincronização de tarefas
 - Explique o porquê que nesse caso não precisa sincronizar tarefas?
+Por que falta componente.
 - Explique que em um ambiente de produção precisa-se criar semáforos
 ou mutaxes.
+Nesse ambiente é necessario um robo ou maquina funcionando em tempo real.
 
 4. Reações baseadas em condições de tempo real.
 - No caso explique o código da tarefa da qual o sensor irá ativar um led
 com temperatura a 26.00 graus, por meio de uma variável volátil.
+Com 2 task feitas 1 delas faz acender e apagar o ELD a cada 0.5 segundos, e a outra task feita com a função de IF para dizer se for 26 graus ira ligar o LED por
+5 segundos ativo e depois apagar.
 
 5. Vantagens
 - Faça um pequeno texto das vantagens do uso de RTOS nas aplicações
 IoT.
 
+O uso de sistemas operacionais em tempo real (RTOS) em aplicações IoT (Internet of Things) traz diversas vantagens significativas. Aqui estão algumas delas:
+Determinismo e previsibilidade: Os RTOS são projetados para fornecer respostas rápidas e previsíveis a eventos em tempo real. Isso é particularmente
+importante em aplicações IoT, onde a comunicação entre dispositivos e a execução de tarefas críticas em tempo hábil são essenciais. Com um RTOS, é possível garantir que as operações ocorram dentro dos prazos especificados, evitando atrasos inaceitáveis e melhorando a confiabilidade do sistema.
 
+Gerenciamento de recursos: Os RTOS oferecem recursos eficientes de gerenciamento de recursos, permitindo que os dispositivos IoT usem de forma otimizada os recursos limitados de processamento, memória, energia e comunicação. Os RTOS podem priorizar
+tarefas com base em sua importância, alocar recursos adequadamente e garantir um uso eficiente dos recursos disponíveis, resultando em um melhor
+desempenho e menor consumo de energia.
+
+Multitarefa e paralelismo: Os RTOS suportam a execução simultânea de várias tarefas, permitindo que diferentes operações ocorram em paralelo.
+Isso é crucial em aplicações IoT, onde vários dispositivos e sensores podem precisar funcionar independentemente e de forma simultânea.
+O uso de multitarefa oferece uma abordagem eficiente para lidar com várias tarefas concorrentes e garante uma melhor utilização do tempo de processamento
+disponível.
+
+Sincronização e comunicação: Os RTOS fornecem mecanismos eficientes para sincronização e comunicação entre as tarefas.
+Isso permite que os dispositivos IoT troquem informações, compartilhem recursos e cooperem de forma segura.
+Os RTOS oferecem recursos como semáforos, mutexes, filas e sinais, que facilitam a comunicação entre as tarefas e evitam condições de corrida e
+acesso indevido a recursos compartilhados.
+
+Escalabilidade e flexibilidade: Os RTOS são altamente escaláveis e flexíveis, o que significa que podem ser adaptados para atender às necessidades
+específicas de diferentes aplicações IoT. Eles podem ser configurados para lidar com uma variedade de dispositivos, desde dispositivos de baixo consumo
+de energia até sistemas complexos com várias camadas de comunicação. Isso permite que os desenvolvedores IoT personalizem o RTOS para
+atender aos requisitos específicos de suas aplicações, proporcionando flexibilidade e adaptabilidade.
+
+No geral, o uso de RTOS em aplicações IoT traz benefícios significativos, incluindo determinismo, gerenciamento eficiente de recursos, 
+suporte a multitarefa, sincronização e comunicação eficientes, além de escalabilidade e flexibilidade. Essas vantagens contribuem para a 
+criação de sistemas IoT mais confiáveis, responsivos e eficientes, proporcionando uma melhor experiência ao usuário e permitindo o 
+desenvolvimento de soluções IoT mais avançadas.
